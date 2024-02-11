@@ -1,0 +1,62 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Listing</title>
+    <!-- Other head elements go here -->
+</head>
+<body>
+
+    <h1>Shop Listing</h1>
+
+    <form id="shopForm">
+        <label for="shopName">Shop Name:</label>
+        <input type="text" id="shopName" required>
+
+        <label for="category">Category:</label>
+        <input type="text" id="category" required>
+
+        <label for="location">Location:</label>
+        <input type="text" id="location" required>
+
+        <button type="button" onclick="addShop()">Add Shop</button>
+    </form>
+
+    <h2>Shop List</h2>
+    <ul id="shopList"></ul>
+
+    <script>
+        function addShop() {
+            var shopName = document.getElementById("shopName").value;
+            var category = document.getElementById("category").value;
+            var location = document.getElementById("location").value;
+
+            if (!shopName || !category || !location) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            // Send a POST request to the server
+            fetch('http://localhost:3000/addShop', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ shopName, category, location }),
+            })
+            .then(response => response.text())
+            .then(message => {
+                console.log(message);
+                // Optionally update the UI or display a success message
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Handle errors
+            });
+        }
+    </script>
+
+</body>
+</html>
